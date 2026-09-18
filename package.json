@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "uv run python -m http.server 3000",
     "start": "uv run python -m http.server 3000",
-    "serve": "npx serve -l 3000"
+    "serve": "npx serve -l 3000",
+    "test:e2e": "uv run --with playwright python tests/test_e2e.py"
   },
   "keywords": [
     "cursor",

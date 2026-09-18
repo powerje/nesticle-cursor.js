@@ -1,12 +1,15 @@
 import subprocess
 import time
+from pathlib import Path
 from playwright.sync_api import sync_playwright
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 def run_tests():
     # Start local HTTP server on port 3009
     server = subprocess.Popen(
         ["python3", "-m", "http.server", "3009"],
-        cwd="/Users/jep/dev/nc/mekilla",
+        cwd=str(ROOT_DIR),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL
     )
@@ -14,7 +17,10 @@ def run_tests():
 
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(channel="chrome", headless=True)
+            try:
+                browser = p.chromium.launch(channel="chrome", headless=True)
+            except Exception:
+                browser = p.chromium.launch(headless=True)
             page = browser.new_page()
 
             print("1. Navigating to http://localhost:3009...")

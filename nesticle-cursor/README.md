@@ -13,7 +13,7 @@ A drop-in web custom cursor based on the iconic severed hand cursor with drippin
 ```
 nesticle-cursor/
 ├── nesticle-cursor.js     # Zero-dependency controller (UMD / ES Module)
-├── nesticle-cursor.css    # Follower, hiding, and splatter particle styling
+├── nesticle-cursor.css    # Cursor styling and click splatter particles
 └── assets/
     ├── nesticle.gif       # 4-frame transparent animated GIF (42x62 px, 200ms)
     ├── nesticle.png       # Frame 0 static pointing finger PNG
@@ -29,7 +29,7 @@ nesticle-cursor/
 
 ## Quick Start Options
 
-### Option 1: 1-Line Drop-in (Follower Mode with Animation)
+### Option 1: 1-Line Drop-in (Animated Hardware Cursor)
 
 ```html
 <!-- Include stylesheet and script -->
@@ -38,24 +38,13 @@ nesticle-cursor/
 
 <script>
   const cursor = new NesticleCursor({
-    mode: 'follower',    // 'follower' | 'native-swap' | 'static'
-    scale: 1,            // Scale factor (1 = 42x62px)
+    scale: 1,            // Scale factor (1 = 42x62px, 1.5 = 63x93px, 2 = 84x124px)
     clickEffect: true    // Spawns retro pixel blood droplets on click
   });
 </script>
 ```
 
-### Option 2: Native OS Frame-Swapper Mode
-
-If you prefer using the browser's hardware cursor without any DOM element, use `native-swap`. This automatically cycles the CSS cursor property across the 4 frames every 200ms:
-
-```javascript
-const cursor = new NesticleCursor({
-  mode: 'native-swap'
-});
-```
-
-### Option 3: Pure Static CSS (Zero JavaScript)
+### Option 2: Pure Static CSS (Zero JavaScript)
 
 If you only want the retro pointing hand as a static native cursor without animations or JS:
 
@@ -76,7 +65,7 @@ a, button, input {
 
 ```javascript
 const cursor = new NesticleCursor({
-  mode: 'follower',               // 'follower', 'native-swap', or 'static'
+  animated: true,                 // true = animated dripping blood, false = static hand
   scale: 1.0,                     // 1 = 42x62px, 1.5 = 63x93px, 2 = 84x124px
   clickEffect: true,              // Blood splatter particles on click
   basePath: './nesticle-cursor/', // Path to folder containing assets/
@@ -84,7 +73,7 @@ const cursor = new NesticleCursor({
 });
 
 // Runtime methods:
-cursor.setMode('native-swap');    // Switch mode
+cursor.setAnimated(false);        // Toggle animation on/off
 cursor.setScale(1.5);             // Adjust scale
 cursor.setClickEffect(false);     // Enable/disable click splatter
 cursor.destroy();                 // Remove and restore default cursor

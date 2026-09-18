@@ -60,12 +60,11 @@ Experience the cursor live on GitHub Pages:
 
 ## Cursor Modes & Browser Compatibility
 
-Because modern web browsers (Chrome, Safari, Firefox) intentionally do not animate GIF images when set via standard CSS `cursor: url('...'), auto;`, this project provides three modes to handle every use case:
+Because modern web browsers (Chrome, Safari, Firefox) do not animate GIF images when set via standard CSS `cursor: url('...'), auto;`, this project utilizes **native OS hardware cursor frame-swapping**. It cycles the 4 extracted PNG frames every 200ms directly in the operating system's hardware cursor plane:
 
 | Mode | Description | Latency | Animation | Best Used For |
 |---|---|---|---|---|
-| **Hardware OS Cursor** (`native-swap`, *Default*) | Uses the operating system's native hardware cursor everywhere (including over buttons, links, and inputs). | Zero latency (native OS compositor) | 200ms frame swapping | **Recommended**: Maximum performance, zero DOM overhead, works across all elements. |
-| **Follower** (`follower`) | Lightweight DOM element tracking mouse coordinates with the transparent animated GIF. | 60+ fps fluid tracking | Full 200ms dripping blood loop | Environments where CSS cursor updates are restricted. |
+| **Animated Hardware Cursor** (`animated`, *Default*) | Uses the operating system's native hardware cursor plane everywhere (including over buttons, links, and inputs). | Zero latency (native OS compositor) | 200ms frame swapping | **Recommended**: Maximum performance, zero DOM overhead, works across all elements. |
 | **Static CSS** (`static`) | Pure CSS fallback using Frame 0 (pointing severed hand) with zero JavaScript required. | Zero latency | Static (no drip) | Minimalist setups or non-JS environments. |
 
 ---
@@ -113,7 +112,6 @@ deno task test:e2e
 
 <script>
   const cursor = new NesticleCursor({
-    mode: 'native-swap', // 'native-swap' | 'follower' | 'static'
     scale: 1,            // 1 = 42x62px, 1.5 = 63x93px, 2 = 84x124px
     clickEffect: true    // Optional retro blood drop splatter on click
   });
@@ -129,7 +127,6 @@ import NesticleCursor from './nesticle-cursor/nesticle-cursor.js';
 export default function App() {
   useEffect(() => {
     const cursor = new NesticleCursor({
-      mode: 'native-swap',
       basePath: '/nesticle-cursor/'
     });
 
@@ -153,7 +150,7 @@ html, body, a, button, input {
 
 ```javascript
 const cursor = new NesticleCursor({
-  mode: 'native-swap',             // 'native-swap' | 'follower' | 'static'
+  animated: true,                  // true = animated dripping blood, false = static hand
   scale: 1,                        // Scaling factor (default: 1)
   clickEffect: true,               // Enable/disable pixelated blood splatter on click
   basePath: './nesticle-cursor/',  // Relative or absolute path to assets directory
@@ -161,10 +158,10 @@ const cursor = new NesticleCursor({
 });
 
 // Dynamic methods:
-cursor.setMode('native-swap');     // Switch modes at runtime
+cursor.setAnimated(false);         // Toggle animation on/off at runtime
 cursor.setScale(1.5);              // Resize cursor
 cursor.setClickEffect(false);      // Toggle click splatter
-cursor.destroy();                  // Unbind events, remove DOM elements, restore OS cursor
+cursor.destroy();                  // Unbind events, remove injected style, restore OS cursor
 ```
 
 ---

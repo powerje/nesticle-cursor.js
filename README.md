@@ -10,7 +10,16 @@
 
 A lightweight barebones web demo and standalone, zero-dependency drop-in custom cursor package.
 
-[**Live Demo**](https://ncmud.net/mekilla/) • [**Upstream Repo**](https://github.com/FragmentedCurve/nesticle-theme) • [**Quick Start**](#how-to-use-the-cursor-in-another-project)
+<p align="center">
+  <a href="https://powerje.github.io/nesticle-cursor.js/"><img src="https://img.shields.io/badge/demo-online-brightgreen?style=flat-square&logo=github" alt="Live Demo" /></a>
+  <a href="https://github.com/powerje/nesticle-cursor.js/actions/workflows/pages.yml"><img src="https://github.com/powerje/nesticle-cursor.js/actions/workflows/pages.yml/badge.svg" alt="Deploy GitHub Pages" /></a>
+  <a href="https://github.com/powerje/nesticle-cursor.js/actions/workflows/test.yml"><img src="https://github.com/powerje/nesticle-cursor.js/actions/workflows/test.yml/badge.svg" alt="Tests" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=flat-square" alt="License: MIT" /></a>
+  <img src="https://img.shields.io/badge/dependencies-0-brightgreen.svg?style=flat-square" alt="Zero Dependencies" />
+  <img src="https://img.shields.io/badge/NES-1997-e60000.svg?style=flat-square" alt="NES 1997" />
+</p>
+
+[**Live Demo**](https://powerje.github.io/nesticle-cursor.js/) • [**Upstream Repo**](https://github.com/FragmentedCurve/nesticle-theme) • [**Quick Start**](#how-to-use-the-cursor-in-another-project)
 
 </div>
 
@@ -36,8 +45,8 @@ Full horizontal sprite sheet included for CSS sprite animation or game engine im
 
 ## Live Demo
 
-Experience the cursor live here:
-👉 **[https://ncmud.net/mekilla/](https://ncmud.net/mekilla/)**
+Experience the cursor live on GitHub Pages:
+👉 **[https://powerje.github.io/nesticle-cursor.js/](https://powerje.github.io/nesticle-cursor.js/)**
 
 ---
 
@@ -80,8 +89,8 @@ deno task lint
 # Run Deno type/syntax checks
 deno task check
 
-# Deploy via SCP to remote server (ncmud.net)
-deno task deploy
+# Run Playwright E2E browser tests
+deno task test:e2e
 ```
 
 *(Alternative using Python: `uv run python -m http.server 3000`)*
@@ -103,7 +112,7 @@ Copy the [`nesticle-cursor/`](nesticle-cursor/) directory into your destination 
 
 <script>
   const cursor = new NesticleCursor({
-    mode: 'follower',    // 'follower' | 'native-swap' | 'static'
+    mode: 'native-swap', // 'native-swap' | 'follower' | 'static'
     scale: 1,            // 1 = 42x62px, 1.5 = 63x93px, 2 = 84x124px
     clickEffect: true    // Optional retro blood drop splatter on click
   });
@@ -119,7 +128,7 @@ import NesticleCursor from './nesticle-cursor/nesticle-cursor.js';
 export default function App() {
   useEffect(() => {
     const cursor = new NesticleCursor({
-      mode: 'follower',
+      mode: 'native-swap',
       basePath: '/nesticle-cursor/'
     });
 
@@ -143,7 +152,7 @@ html, body, a, button, input {
 
 ```javascript
 const cursor = new NesticleCursor({
-  mode: 'follower',                // 'follower' | 'native-swap' | 'static'
+  mode: 'native-swap',             // 'native-swap' | 'follower' | 'static'
   scale: 1,                        // Scaling factor (default: 1)
   clickEffect: true,               // Enable/disable pixelated blood splatter on click
   basePath: './nesticle-cursor/',  // Relative or absolute path to assets directory
@@ -162,13 +171,19 @@ cursor.destroy();                  // Unbind events, remove DOM elements, restor
 ## Project Structure
 
 ```
-mekilla/
+nesticle-cursor.js/
 ├── index.html                     # Minimal barebones demo website
 ├── style.css                      # Demo page styling
 ├── main.js                        # Demo interactivity and mode controls
-├── deno.json                      # Deno tasks (dev, serve, lint, check, deploy)
+├── deno.json                      # Deno tasks (dev, serve, lint, check, test)
 ├── package.json                   # Convenience scripts
 ├── README.md                      # This file
+├── LICENSE                        # MIT License
+├── .github/workflows/             # GitHub Actions CI & Pages deployment
+│   ├── pages.yml
+│   └── test.yml
+├── tests/                         # Automated Playwright test suite
+│   └── test_e2e.py
 └── nesticle-cursor/               # PORTABLE CURSOR PACKAGE (Drop this anywhere!)
     ├── nesticle-cursor.js         # Zero-dependency controller (UMD / ES Module)
     ├── nesticle-cursor.css        # Follower styles, cursor suppression, splatter

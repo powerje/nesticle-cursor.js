@@ -11,6 +11,7 @@
 A lightweight barebones web demo and standalone, zero-dependency drop-in custom cursor package.
 
 <p align="center">
+  <a href="https://github.com/powerje/nesticle-cursor.js/releases/latest"><img src="https://img.shields.io/github/v/release/powerje/nesticle-cursor.js?style=flat-square&color=blue" alt="Latest Release" /></a>
   <a href="https://powerje.github.io/nesticle-cursor.js/"><img src="https://img.shields.io/badge/demo-online-brightgreen?style=flat-square&logo=github" alt="Live Demo" /></a>
   <a href="https://github.com/powerje/nesticle-cursor.js/actions/workflows/pages.yml"><img src="https://github.com/powerje/nesticle-cursor.js/actions/workflows/pages.yml/badge.svg" alt="Deploy GitHub Pages" /></a>
   <a href="https://github.com/powerje/nesticle-cursor.js/actions/workflows/test.yml"><img src="https://github.com/powerje/nesticle-cursor.js/actions/workflows/test.yml/badge.svg" alt="Tests" /></a>
@@ -19,7 +20,7 @@ A lightweight barebones web demo and standalone, zero-dependency drop-in custom 
   <img src="https://img.shields.io/badge/NES-1997-e60000.svg?style=flat-square" alt="NES 1997" />
 </p>
 
-[**Live Demo**](https://powerje.github.io/nesticle-cursor.js/) • [**Upstream Repo**](https://github.com/FragmentedCurve/nesticle-theme) • [**Quick Start**](#how-to-use-the-cursor-in-another-project)
+[**Live Demo**](https://powerje.github.io/nesticle-cursor.js/) • [**Download Release**](https://github.com/powerje/nesticle-cursor.js/releases/latest) • [**Upstream Repo**](https://github.com/FragmentedCurve/nesticle-theme) • [**Quick Start**](#how-to-use-the-cursor-in-another-project)
 
 </div>
 
@@ -99,10 +100,10 @@ deno task test:e2e
 
 ## How to Use the Cursor in Another Project
 
-The cursor is self-contained in the [`nesticle-cursor/`](nesticle-cursor/) folder.
+### 1. Get the Files
 
-### 1. Copy the Directory
-Copy the [`nesticle-cursor/`](nesticle-cursor/) directory into your destination web project.
+- **Download Release (Recommended)**: Download the latest [`nesticle-cursor-v*.zip`](https://github.com/powerje/nesticle-cursor.js/releases/latest) from the [Releases page](https://github.com/powerje/nesticle-cursor.js/releases/latest) and extract the `nesticle-cursor/` directory into your project.
+- **Or Copy Directly**: If you cloned this repo, copy the [`nesticle-cursor/`](nesticle-cursor/) directory into your destination web project.
 
 ### 2. Add to Your HTML
 ```html

@@ -1,8 +1,13 @@
 {
-  "name": "nesticle-cursor-demo",
+  "name": "nesticle-cursor.js",
   "version": "1.0.0",
-  "description": "A barebones website featuring the classic NESticle severed bloody hand custom cursor",
-  "main": "main.js",
+  "description": "Standalone NESticle severed hand custom cursor with dripping blood animation for the web",
+  "main": "nesticle-cursor/nesticle-cursor.js",
+  "homepage": "https://powerje.github.io/nesticle-cursor.js/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/powerje/nesticle-cursor.js.git"
+  },
   "scripts": {
     "dev": "uv run python -m http.server 3000",
     "start": "uv run python -m http.server 3000",
@@ -14,8 +19,9 @@
     "nesticle",
     "nes",
     "retro",
-    "custom-cursor"
+    "custom-cursor",
+    "hardware-cursor"
   ],
-  "author": "",
+  "author": "James Power",
   "license": "MIT"
 }

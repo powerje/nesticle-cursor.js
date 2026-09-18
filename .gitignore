@@ -1,0 +1,45 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Deno & Node Dependencies / Caches
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.deno/
+deno.lock
+
+# Python & uv
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+.uv/
+
+# IDE & Editor Configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# Logs & Temporary
+*.log
+tmp/
+temp/
+.temp/
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local

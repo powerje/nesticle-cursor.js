@@ -1,0 +1,77 @@
+/* ==========================================================================
+   NESticle Custom Cursor Styles
+   ========================================================================== */
+
+/* Hides native OS cursor across the page or target element */
+.nesticle-cursor-none,
+.nesticle-cursor-none * {
+  cursor: none !important;
+}
+
+/* Static CSS cursor fallback (Frame 0 static pointing hand) */
+.nesticle-cursor-static,
+.nesticle-cursor-static * {
+  cursor: url('assets/nesticle.png') 0 0, auto !important;
+}
+
+/* Custom DOM Follower Element */
+.nesticle-cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2147483647; /* Maximum possible z-index */
+  display: block;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0);
+  transform-origin: 0 0;
+  transition: opacity 0.15s ease, transform 0.04s linear;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.nesticle-cursor-follower.visible {
+  opacity: 1;
+}
+
+.nesticle-cursor-follower.clicking {
+  transform: translate3d(var(--nesticle-x), var(--nesticle-y), 0) scale(0.92) rotate(-4deg);
+}
+
+.nesticle-cursor-follower.interactive-hover {
+  filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.7));
+  transform: translate3d(var(--nesticle-x), var(--nesticle-y), 0) scale(1.1) rotate(-3deg);
+}
+
+.nesticle-cursor-follower img {
+  display: block;
+  width: 42px;
+  height: 62px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Retro Blood Splatter Particles on Click */
+.nesticle-splatter-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2147483646;
+  border-radius: 1px;
+  image-rendering: pixelated;
+  animation: nesticle-splatter-anim 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes nesticle-splatter-anim {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--vx), var(--vy)) scale(0.6);
+    opacity: 0;
+  }
+}

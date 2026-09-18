@@ -1,0 +1,20 @@
+{
+  "name": "nesticle-cursor-demo",
+  "version": "1.0.0",
+  "description": "A barebones website featuring the classic NESticle severed bloody hand custom cursor",
+  "main": "main.js",
+  "scripts": {
+    "dev": "uv run python -m http.server 3000",
+    "start": "uv run python -m http.server 3000",
+    "serve": "npx serve -l 3000"
+  },
+  "keywords": [
+    "cursor",
+    "nesticle",
+    "nes",
+    "retro",
+    "custom-cursor"
+  ],
+  "author": "",
+  "license": "MIT"
+}

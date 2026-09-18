@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NESticle Custom Cursor</title>
+  <link rel="icon" type="image/png" href="nesticle-cursor/assets/nesticle.png">
+  
+  <!-- Standalone NESticle Cursor CSS -->
+  <link rel="stylesheet" href="nesticle-cursor/nesticle-cursor.css">
+  
+  <!-- Barebones Demo CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="site-container">
+    <header class="hero">
+      <div class="badge">NES Retro Theme</div>
+      <h1>NESticle Cursor</h1>
+      <p class="subtitle">The iconic severed bloody hand cursor from 1997's NESticle emulator.</p>
+    </header>
+
+    <main class="playground">
+      <section class="card sandbox-card">
+        <h2>Interactive Sandbox</h2>
+        <p class="description">Move around and interact with elements to test cursor behavior and click feedback.</p>
+        
+        <div class="interactive-row">
+          <button class="btn btn-primary" id="btn-splatter">Click for Splatter</button>
+          <button class="btn btn-secondary" id="btn-count">Clicks: <span id="click-count">0</span></button>
+          <a href="#test-link" class="retro-link" id="test-link">Hoverable Link</a>
+        </div>
+
+        <div class="input-row">
+          <input type="text" class="retro-input" placeholder="Type here to test text interaction..." value="NES blood drip cursor demo">
+        </div>
+
+        <div class="canvas-area" id="canvas-area">
+          <span class="canvas-hint">Click anywhere on this canvas to leave blood splatters</span>
+        </div>
+      </section>
+
+      <section class="card snippet-card">
+        <div class="card-header">
+          <h3>Drop Into Your Own Website</h3>
+          <span class="pill">nesticle-cursor/</span>
+        </div>
+        <p>The cursor is packaged as a standalone, zero-dependency module ready to be dropped into any project:</p>
+        <pre><code class="code-block">&lt;link rel="stylesheet" href="nesticle-cursor/nesticle-cursor.css"&gt;
+&lt;script src="nesticle-cursor/nesticle-cursor.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  const cursor = new NesticleCursor({
+    mode: 'follower',    // 'follower' | 'native-swap' | 'static'
+    scale: 1,            // 1x = 42x62px
+    clickEffect: true    // Blood splatter particles on click
+  });
+&lt;/script&gt;</code></pre>
+      </section>
+    </main>
+
+    <!-- Floating Settings Dock -->
+    <div class="settings-dock">
+      <div class="settings-group">
+        <label for="mode-select">Mode</label>
+        <select id="mode-select" class="retro-select">
+          <option value="hybrid" selected>Hybrid (Hardware + Follower over Controls)</option>
+          <option value="native-swap">Native OS Swapper (Hardware Everywhere)</option>
+          <option value="follower">Follower (Smooth Animated GIF Everywhere)</option>
+          <option value="static">Static CSS (Zero JS)</option>
+        </select>
+      </div>
+
+      <div class="settings-group">
+        <label for="scale-select">Scale</label>
+        <select id="scale-select" class="retro-select">
+          <option value="1" selected>1x (42×62)</option>
+          <option value="1.5">1.5x (63×93)</option>
+          <option value="2">2x (84×124)</option>
+        </select>
+      </div>
+
+      <div class="settings-group toggle-group">
+        <label>
+          <input type="checkbox" id="splatter-toggle" checked>
+          <span>Click Splatter</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cursor Script -->
+  <script src="nesticle-cursor/nesticle-cursor.js"></script>
+  <!-- Site Demo Script -->
+  <script src="main.js"></script>
+</body>
+</html>

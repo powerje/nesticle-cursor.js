@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "dev": "deno run --allow-net --allow-read jsr:@std/http/file-server -p 3000",
+    "serve": "deno run --allow-net --allow-read jsr:@std/http/file-server -p 3000",
+    "deploy": "scp -r index.html style.css main.js nesticle-cursor ncmud@ncmud.net:~/public_html/mekilla/",
+    "lint": "deno lint",
+    "check": "deno check nesticle-cursor/nesticle-cursor.js main.js"
+  },
+  "lint": {
+    "include": ["nesticle-cursor/", "main.js"]
+  }
+}

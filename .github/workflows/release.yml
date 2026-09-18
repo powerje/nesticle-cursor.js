@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Run Deno lint
+        run: deno task lint
+
+      - name: Run Deno check
+        run: deno task check
+
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.14'
+          enable-cache: true
+
+      - name: Install Playwright and Chromium
+        run: uv run --with playwright playwright install --with-deps chromium
+
+      - name: Run Playwright E2E tests
+        run: uv run --with playwright python tests/test_e2e.py
+
+      - name: Package standalone cursor directory
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          zip -r "nesticle-cursor-${VERSION}.zip" nesticle-cursor/
+          tar -czf "nesticle-cursor-${VERSION}.tar.gz" nesticle-cursor/
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            nesticle-cursor-*.zip \
+            nesticle-cursor-*.tar.gz \
+            --title "NESticle Cursor ${GITHUB_REF_NAME}" \
+            --generate-notes

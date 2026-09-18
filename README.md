@@ -111,10 +111,17 @@ deno task test:e2e
 <script src="nesticle-cursor/nesticle-cursor.js"></script>
 
 <script>
+  // Applies the retro cursor to the entire page
   const cursor = new NesticleCursor({
     scale: 1,            // 1 = 42x62px, 1.5 = 63x93px, 2 = 84x124px
     clickEffect: true    // Optional retro blood drop splatter on click
   });
+
+  // OR: Apply it only to a specific container instead of the whole page
+  // const boxCursor = new NesticleCursor({
+  //   target: '#my-retro-box',
+  //   clickEffect: true
+  // });
 </script>
 ```
 

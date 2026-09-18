@@ -99,8 +99,11 @@
     init() {
       this._preloadAssets();
       this.applyMode(this.mode);
-      if (this.clickEffect && typeof globalThis !== 'undefined' && globalThis.addEventListener) {
-        globalThis.addEventListener('pointerdown', this._onPointerDown, { passive: true });
+      if (this.clickEffect) {
+        const eventTarget = this.target && this.target !== document.documentElement ? this.target : (typeof globalThis !== 'undefined' ? globalThis : null);
+        if (eventTarget && eventTarget.addEventListener) {
+          eventTarget.addEventListener('pointerdown', this._onPointerDown, { passive: true });
+        }
       }
     }
 
@@ -273,11 +276,12 @@
       const enable = Boolean(enabled);
       if (this.clickEffect === enable) return;
       this.clickEffect = enable;
-      if (typeof globalThis !== 'undefined' && globalThis.addEventListener) {
+      const eventTarget = this.target && this.target !== document.documentElement ? this.target : (typeof globalThis !== 'undefined' ? globalThis : null);
+      if (eventTarget && eventTarget.addEventListener) {
         if (this.clickEffect) {
-          globalThis.addEventListener('pointerdown', this._onPointerDown, { passive: true });
+          eventTarget.addEventListener('pointerdown', this._onPointerDown, { passive: true });
         } else {
-          globalThis.removeEventListener('pointerdown', this._onPointerDown);
+          eventTarget.removeEventListener('pointerdown', this._onPointerDown);
         }
       }
     }
@@ -293,10 +297,13 @@
 
     _updateAnimatedCursor() {
       const styleEl = this._getSwapStyleElement();
-      if (styleEl) {
+      if (styleEl && this.target) {
+        if (this.target.setAttribute) {
+          this.target.setAttribute('data-nesticle-cursor', 'true');
+        }
         const frames = this._getScaledFrames(this.scale);
         const frameUrl = frames[this.currentFrameIdx % frames.length];
-        styleEl.textContent = `*, *::before, *::after { cursor: url("${frameUrl}") 0 0, auto !important; }`;
+        styleEl.textContent = `[data-nesticle-cursor="true"], [data-nesticle-cursor="true"] *, [data-nesticle-cursor="true"] *::before, [data-nesticle-cursor="true"] *::after { cursor: url("${frameUrl}") 0 0, auto !important; }`;
       }
     }
 
@@ -315,9 +322,12 @@
 
     _setupStatic() {
       const styleEl = this._getSwapStyleElement();
-      if (styleEl) {
+      if (styleEl && this.target) {
+        if (this.target.setAttribute) {
+          this.target.setAttribute('data-nesticle-cursor', 'true');
+        }
         const staticUrl = this._getScaledStatic(this.scale);
-        styleEl.textContent = `*, *::before, *::after { cursor: url("${staticUrl}") 0 0, auto !important; }`;
+        styleEl.textContent = `[data-nesticle-cursor="true"], [data-nesticle-cursor="true"] *, [data-nesticle-cursor="true"] *::before, [data-nesticle-cursor="true"] *::after { cursor: url("${staticUrl}") 0 0, auto !important; }`;
       }
     }
 
@@ -375,10 +385,14 @@
     }
 
     destroy() {
-      if (typeof globalThis !== 'undefined' && globalThis.removeEventListener) {
-        globalThis.removeEventListener('pointerdown', this._onPointerDown);
+      const eventTarget = this.target && this.target !== document.documentElement ? this.target : (typeof globalThis !== 'undefined' ? globalThis : null);
+      if (eventTarget && eventTarget.removeEventListener) {
+        eventTarget.removeEventListener('pointerdown', this._onPointerDown);
       }
       this._cleanupCurrentMode();
+      if (this.target && this.target.removeAttribute) {
+        this.target.removeAttribute('data-nesticle-cursor');
+      }
       if (this.swapStyleEl && this.swapStyleEl.parentNode) {
         this.swapStyleEl.parentNode.removeChild(this.swapStyleEl);
         this.swapStyleEl = null;

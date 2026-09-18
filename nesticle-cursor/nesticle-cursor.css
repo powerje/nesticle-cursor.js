@@ -49,11 +49,6 @@
   image-rendering: crisp-edges;
 }
 
-.nesticle-cursor-follower.interactive-hover img {
-  filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.75));
-  transform: scale(1.08) rotate(-3deg);
-}
-
 .nesticle-cursor-follower.clicking img {
   transform: scale(0.92) rotate(-1deg);
 }

@@ -1,8 +1,8 @@
 /**
  * NESticle Custom Cursor
  * Standalone, zero-dependency cursor implementation based on the classic NESticle severed hand cursor.
- * Supports Hybrid mode (hardware cursor + interactive follower), Follower mode (animated GIF),
- * Native Frame-Swapper mode (OS cursor everywhere), and Static CSS.
+ * Supports Native Frame-Swapper mode (OS hardware cursor everywhere), Follower mode (animated GIF),
+ * and Static CSS.
  */
 
 (function (global, factory) {
@@ -15,8 +15,6 @@
   }
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
-
-  const INTERACTIVE_SELECTOR = 'a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"]), .interactive, label';
 
   // Base path resolution for assets relative to script location
   function getScriptBasePath() {
@@ -34,7 +32,7 @@
   class NesticleCursor {
     /**
      * @param {Object} options
-     * @param {'hybrid'|'follower'|'native-swap'|'static'} [options.mode='hybrid'] Cursor rendering mode
+     * @param {'native-swap'|'follower'|'static'} [options.mode='native-swap'] Cursor rendering mode
      * @param {number} [options.scale=1] Scale factor (1 = 42x62px)
      * @param {boolean} [options.clickEffect=true] Spawn pixelated blood drops on click
      * @param {string} [options.basePath] Base path for assets directory
@@ -42,7 +40,7 @@
      */
     constructor(options = {}) {
       this.options = Object.assign({
-        mode: 'hybrid',
+        mode: 'native-swap',
         scale: 1,
         clickEffect: true,
         basePath: DEFAULT_BASE_PATH,
@@ -83,7 +81,9 @@
       this.mouseY = -100;
       this.isInside = false;
       this.isMouseDown = false;
-      this.isOverInteractive = false;
+      this.isTouchDevice = typeof globalThis !== 'undefined' &&
+        typeof globalThis.matchMedia === 'function' &&
+        globalThis.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
       // Bound event handlers
       this._onPointerMove = this._onPointerMove.bind(this);
@@ -98,8 +98,9 @@
 
     init() {
       this._preloadAssets();
-      this._createFollowerDom();
-      this.applyMode(this.mode);
+      if (!this.isTouchDevice) {
+        this.applyMode(this.mode);
+      }
       this._bindGlobalEvents();
     }
 
@@ -153,9 +154,7 @@
       this.mode = mode;
       this._cleanupCurrentMode();
 
-      if (mode === 'hybrid') {
-        this._setupHybrid();
-      } else if (mode === 'follower') {
+      if (mode === 'follower') {
         this._setupFollower();
       } else if (mode === 'native-swap') {
         this._setupNativeSwap();
@@ -165,7 +164,7 @@
     }
 
     setMode(newMode) {
-      if (['hybrid', 'follower', 'native-swap', 'static'].includes(newMode)) {
+      if (['native-swap', 'follower', 'static'].includes(newMode)) {
         this.applyMode(newMode);
       }
     }
@@ -192,6 +191,7 @@
     }
 
     _setupFollower() {
+      this._createFollowerDom();
       this.target.classList.add('nesticle-cursor-none');
       if (this.followerEl) {
         this.followerEl.style.display = 'block';
@@ -217,38 +217,6 @@
       this.swapIntervalId = setInterval(updateCursor, 200);
     }
 
-    _setupHybrid() {
-      const styleEl = this._getSwapStyleElement();
-      let frameIdx = 0;
-
-      const updateCursor = () => {
-        const frameUrl = this.assets.frames[frameIdx];
-        this.currentFrameUrl = frameUrl;
-
-        if (styleEl) {
-          styleEl.textContent = `
-            html:not(.nesticle-hovering-control),
-            html:not(.nesticle-hovering-control) * {
-              cursor: url("${frameUrl}") 0 0, auto !important;
-            }
-            html.nesticle-hovering-control,
-            html.nesticle-hovering-control * {
-              cursor: none !important;
-            }
-          `;
-        }
-        frameIdx = (frameIdx + 1) % this.assets.frames.length;
-      };
-
-      updateCursor();
-      this.swapIntervalId = setInterval(updateCursor, 200);
-
-      if (this.followerEl) {
-        this.followerEl.style.display = 'block';
-        this.followerEl.classList.remove('visible', 'interactive-hover');
-      }
-    }
-
     _setupStatic() {
       const styleEl = this._getSwapStyleElement();
       if (styleEl) {
@@ -259,7 +227,6 @@
     _cleanupCurrentMode() {
       this.target.classList.remove('nesticle-cursor-none');
       this.target.classList.remove('nesticle-cursor-static');
-      document.documentElement.classList.remove('nesticle-hovering-control');
 
       if (this.swapStyleEl) {
         this.swapStyleEl.textContent = '';
@@ -272,10 +239,8 @@
 
       if (this.followerEl) {
         this.followerEl.style.display = 'none';
-        this.followerEl.classList.remove('visible', 'interactive-hover', 'clicking');
+        this.followerEl.classList.remove('visible', 'clicking');
       }
-
-      this.isOverInteractive = false;
     }
 
     _onPointerMove(e) {
@@ -286,32 +251,15 @@
         this.isInside = true;
       }
 
-      // Always keep follower coordinates in sync so it never flies across the screen when appearing
-      if (this.followerEl) {
+      if (this.mode === 'follower' && this.followerEl) {
+        this.followerEl.classList.add('visible');
         this.followerEl.style.transform = `translate3d(${this.mouseX}px, ${this.mouseY}px, 0)`;
-      }
-
-      // Check for interactive targets in Hybrid mode via instant class toggle
-      if (this.mode === 'hybrid') {
-        const isInteractive = Boolean(e.target && e.target.closest(INTERACTIVE_SELECTOR));
-        if (isInteractive !== this.isOverInteractive) {
-          this.isOverInteractive = isInteractive;
-          document.documentElement.classList.toggle('nesticle-hovering-control', isInteractive);
-          if (this.followerEl) {
-            this.followerEl.classList.toggle('visible', isInteractive);
-            this.followerEl.classList.toggle('interactive-hover', isInteractive);
-          }
-        }
-      } else if (this.mode === 'follower') {
-        if (this.followerEl) {
-          this.followerEl.classList.add('visible');
-        }
       }
     }
 
     _onPointerDown(e) {
       this.isMouseDown = true;
-      if (this.followerEl && (this.mode === 'follower' || (this.mode === 'hybrid' && this.isOverInteractive))) {
+      if (this.followerEl && this.mode === 'follower') {
         this.followerEl.classList.add('clicking');
       }
 

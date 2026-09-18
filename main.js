@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize NESticle Cursor
   const cursor = new NesticleCursor({
-    mode: 'hybrid',
+    mode: 'native-swap',
     scale: 1,
     clickEffect: true,
     basePath: './nesticle-cursor/'

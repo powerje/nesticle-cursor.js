@@ -1,10 +1,36 @@
+<div align="center">
+
 # NESticle Custom Cursor & Barebones Demo
 
-A lightweight, barebones web project and drop-in custom cursor featuring the iconic severed hand with dripping blood from the 1997 DOS NES emulator **NESticle**.
+<p align="center">
+  <img src="nesticle-cursor/assets/nesticle.gif" width="126" alt="NESticle Dripping Blood Cursor Animation" />
+</p>
 
-The cursor is packaged as an isolated, zero-dependency module inside [`nesticle-cursor/`](nesticle-cursor/) so you can drop it directly into any other website or project.
+**The iconic severed hand cursor with dripping blood from 1997's NESticle DOS emulator.**
 
-![NESticle Cursor Animation](nesticle-cursor/assets/nesticle.gif)
+A lightweight barebones web demo and standalone, zero-dependency drop-in custom cursor package.
+
+[**Live Demo**](https://ncmud.net/mekilla/) • [**Upstream Repo**](https://github.com/FragmentedCurve/nesticle-theme) • [**Quick Start**](#how-to-use-the-cursor-in-another-project)
+
+</div>
+
+---
+
+## Visual Animation Breakdown
+
+The original cursor animation loops across 4 frames extracted directly from NESticle's emulator code, cycling every 200 milliseconds (800ms total loop):
+
+| Frame 0 (0ms) | Frame 1 (200ms) | Frame 2 (400ms) | Frame 3 (600ms) |
+| :---: | :---: | :---: | :---: |
+| <img src="nesticle-cursor/assets/frames/frame_0.png" width="84" alt="Frame 0 - Initial detachment" /> | <img src="nesticle-cursor/assets/frames/frame_1.png" width="84" alt="Frame 1 - Blood droplet falls" /> | <img src="nesticle-cursor/assets/frames/frame_2.png" width="84" alt="Frame 2 - Droplet falls further" /> | <img src="nesticle-cursor/assets/frames/frame_3.png" width="84" alt="Frame 3 - New droplet forming" /> |
+| *Initial detachment* | *Blood droplet falls* | *Droplet falls further* | *New droplet forming* |
+
+### Spritesheet (168 × 62 px)
+Full horizontal sprite sheet included for CSS sprite animation or game engine imports:
+
+<p align="left">
+  <img src="nesticle-cursor/assets/spritesheet.png" width="336" alt="NESticle 4-Frame Spritesheet" />
+</p>
 
 ---
 
@@ -28,10 +54,9 @@ Because modern web browsers (Chrome, Safari, Firefox) intentionally do not anima
 
 | Mode | Description | Latency | Animation | Best Used For |
 |---|---|---|---|---|
-| **Hybrid** *(Default)* | Hardware OS cursor across open space + DOM Follower seamlessly taking over with interactive hover effects when hovering controls. | Zero latency on open canvas; smooth interactive effects over controls | 200ms frame loop | Best overall balance: maximum speed with rich control feedback. |
-| **Native OS Swapper** | Uses the operating system's native hardware cursor everywhere, forcing frame updates across all elements (including buttons/inputs). | Zero latency everywhere | 200ms frame swapping | Pure hardware-level performance across the entire screen. |
-| **Follower** | Lightweight DOM element tracking mouse coordinates everywhere with hardware-accelerated CSS `translate3d`. | 60+ fps fluid tracking | Full 200ms dripping blood loop | Consistent custom DOM rendering everywhere. |
-| **Static CSS** | Pure CSS fallback using Frame 0 (pointing severed hand) with zero JavaScript required. | Zero latency | Static (no drip) | Minimalist setups or non-JS environments. |
+| **Hardware OS Cursor** (`native-swap`, *Default*) | Uses the operating system's native hardware cursor everywhere (including over buttons, links, and inputs). | Zero latency (native OS compositor) | 200ms frame swapping | **Recommended**: Maximum performance, zero DOM overhead, works across all elements. |
+| **Follower** (`follower`) | Lightweight DOM element tracking mouse coordinates with the transparent animated GIF. | 60+ fps fluid tracking | Full 200ms dripping blood loop | Environments where CSS cursor updates are restricted. |
+| **Static CSS** (`static`) | Pure CSS fallback using Frame 0 (pointing severed hand) with zero JavaScript required. | Zero latency | Static (no drip) | Minimalist setups or non-JS environments. |
 
 ---
 

@@ -2,6 +2,12 @@
 
 A drop-in web custom cursor based on the iconic severed hand cursor with dripping blood from the NESticle emulator ([FragmentedCurve/nesticle-theme](https://github.com/FragmentedCurve/nesticle-theme)).
 
+<p align="left">
+  <img src="assets/nesticle.gif" width="105" alt="NESticle Cursor" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="assets/spritesheet.png" width="280" alt="Spritesheet" />
+</p>
+
 ## Files Included
 
 ```

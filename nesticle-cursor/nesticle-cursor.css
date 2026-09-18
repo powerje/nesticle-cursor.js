@@ -2,55 +2,10 @@
    NESticle Custom Cursor Styles
    ========================================================================== */
 
-/* Hides native OS cursor across the page or target element */
-.nesticle-cursor-none,
-.nesticle-cursor-none * {
-  cursor: none !important;
-}
-
 /* Static CSS cursor fallback (Frame 0 static pointing hand) */
 .nesticle-cursor-static,
 .nesticle-cursor-static * {
   cursor: url('assets/nesticle.png') 0 0, auto !important;
-}
-
-/* Custom DOM Follower Element */
-.nesticle-cursor-follower {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 2147483647; /* Maximum possible z-index */
-  display: block;
-  opacity: 0;
-  visibility: hidden;
-  transform: translate3d(-100px, -100px, 0);
-  transform-origin: 0 0;
-  /* NO transition on coordinates! Instant positioning at all times */
-  transition: none;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.nesticle-cursor-follower.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Inner image handles tilt, scale, and hover glow */
-.nesticle-cursor-follower img {
-  display: block;
-  width: 42px;
-  height: 62px;
-  transform-origin: 0 0;
-  transition: transform 0.08s cubic-bezier(0.2, 0.8, 0.4, 1), filter 0.12s ease;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-.nesticle-cursor-follower.clicking img {
-  transform: scale(0.92) rotate(-1deg);
 }
 
 /* Retro Blood Splatter Particles on Click */

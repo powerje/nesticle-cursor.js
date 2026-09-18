@@ -4,7 +4,7 @@
     "serve": "deno run --allow-net --allow-read jsr:@std/http/file-server -p 3000",
     "deploy": "scp -r index.html style.css main.js nesticle-cursor ncmud@ncmud.net:~/public_html/mekilla/",
     "lint": "deno lint",
-    "check": "deno check nesticle-cursor/nesticle-cursor.js main.js",
+    "check": "deno check nesticle-cursor/nesticle-cursor.js nesticle-cursor/nesticle-cursor.d.ts main.js",
     "test:e2e": "uv run --with playwright python tests/test_e2e.py"
   },
   "lint": {

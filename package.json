@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Standalone NESticle severed hand custom cursor with dripping blood animation for the web",
   "main": "nesticle-cursor/nesticle-cursor.js",
+  "types": "nesticle-cursor/nesticle-cursor.d.ts",
   "homepage": "https://powerje.github.io/nesticle-cursor.js/",
   "repository": {
     "type": "git",

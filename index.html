@@ -50,8 +50,7 @@
 &lt;script src="nesticle-cursor/nesticle-cursor.js"&gt;&lt;/script&gt;
 &lt;script&gt;
   const cursor = new NesticleCursor({
-    mode: 'follower',    // 'follower' | 'native-swap' | 'static'
-    scale: 1,            // 1x = 42x62px
+    scale: 1,            // 1x = 42x62px, 1.5 = 63x93px, 2 = 84x124px
     clickEffect: true    // Blood splatter particles on click
   });
 &lt;/script&gt;</code></pre>
@@ -63,9 +62,8 @@
       <div class="settings-group">
         <label for="mode-select">Mode</label>
         <select id="mode-select" class="retro-select">
-          <option value="native-swap" selected>Hardware Cursor (Native OS - Recommended)</option>
-          <option value="follower">Follower (DOM Animated GIF)</option>
-          <option value="static">Static CSS (Zero JS)</option>
+          <option value="animated" selected>Animated (Hardware Cursor)</option>
+          <option value="static">Static (Single Frame)</option>
         </select>
       </div>
 

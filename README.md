@@ -179,8 +179,9 @@ nesticle-cursor.js/
 ├── package.json                   # Convenience scripts
 ├── README.md                      # This file
 ├── LICENSE                        # MIT License
-├── .github/workflows/             # GitHub Actions CI & Pages deployment
+├── .github/workflows/             # GitHub Actions CI, Pages & Releases
 │   ├── pages.yml
+│   ├── release.yml
 │   └── test.yml
 ├── tests/                         # Automated Playwright test suite
 │   └── test_e2e.py

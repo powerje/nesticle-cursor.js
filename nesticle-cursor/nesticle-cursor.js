@@ -225,9 +225,17 @@
         const frameUrl = this.assets.frames[frameIdx];
         this.currentFrameUrl = frameUrl;
 
-        // Only inject hardware cursor if NOT currently hovering over an interactive control
-        if (!this.isOverInteractive && styleEl) {
-          styleEl.textContent = `*, *::before, *::after { cursor: url("${frameUrl}") 0 0, auto !important; }`;
+        if (styleEl) {
+          styleEl.textContent = `
+            html:not(.nesticle-hovering-control),
+            html:not(.nesticle-hovering-control) * {
+              cursor: url("${frameUrl}") 0 0, auto !important;
+            }
+            html.nesticle-hovering-control,
+            html.nesticle-hovering-control * {
+              cursor: none !important;
+            }
+          `;
         }
         frameIdx = (frameIdx + 1) % this.assets.frames.length;
       };
@@ -251,6 +259,7 @@
     _cleanupCurrentMode() {
       this.target.classList.remove('nesticle-cursor-none');
       this.target.classList.remove('nesticle-cursor-static');
+      document.documentElement.classList.remove('nesticle-hovering-control');
 
       if (this.swapStyleEl) {
         this.swapStyleEl.textContent = '';
@@ -277,41 +286,26 @@
         this.isInside = true;
       }
 
-      // Check for interactive targets in Hybrid mode
+      // Always keep follower coordinates in sync so it never flies across the screen when appearing
+      if (this.followerEl) {
+        this.followerEl.style.transform = `translate3d(${this.mouseX}px, ${this.mouseY}px, 0)`;
+      }
+
+      // Check for interactive targets in Hybrid mode via instant class toggle
       if (this.mode === 'hybrid') {
         const isInteractive = Boolean(e.target && e.target.closest(INTERACTIVE_SELECTOR));
         if (isInteractive !== this.isOverInteractive) {
           this.isOverInteractive = isInteractive;
-          const styleEl = this._getSwapStyleElement();
-
-          if (isInteractive) {
-            // Over control: switch from hardware to Follower
-            if (styleEl) {
-              styleEl.textContent = `*, *::before, *::after { cursor: none !important; }`;
-            }
-            if (this.followerEl) {
-              this.followerEl.classList.add('visible', 'interactive-hover');
-            }
-          } else {
-            // Left control: switch back to hardware cursor
-            if (this.followerEl) {
-              this.followerEl.classList.remove('visible', 'interactive-hover');
-            }
-            if (styleEl && this.currentFrameUrl) {
-              styleEl.textContent = `*, *::before, *::after { cursor: url("${this.currentFrameUrl}") 0 0, auto !important; }`;
-            }
+          document.documentElement.classList.toggle('nesticle-hovering-control', isInteractive);
+          if (this.followerEl) {
+            this.followerEl.classList.toggle('visible', isInteractive);
+            this.followerEl.classList.toggle('interactive-hover', isInteractive);
           }
         }
-      }
-
-      // Keep follower position updated
-      if (this.followerEl && (this.mode === 'follower' || (this.mode === 'hybrid' && this.isOverInteractive))) {
-        if (this.mode === 'follower') {
+      } else if (this.mode === 'follower') {
+        if (this.followerEl) {
           this.followerEl.classList.add('visible');
         }
-        this.followerEl.style.transform = `translate3d(${this.mouseX}px, ${this.mouseY}px, 0)`;
-        this.followerEl.style.setProperty('--nesticle-x', `${this.mouseX}px`);
-        this.followerEl.style.setProperty('--nesticle-y', `${this.mouseY}px`);
       }
     }
 

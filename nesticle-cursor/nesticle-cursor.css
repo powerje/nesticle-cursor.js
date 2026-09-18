@@ -23,33 +23,39 @@
   z-index: 2147483647; /* Maximum possible z-index */
   display: block;
   opacity: 0;
+  visibility: hidden;
   transform: translate3d(-100px, -100px, 0);
   transform-origin: 0 0;
-  transition: opacity 0.15s ease, transform 0.04s linear;
+  /* NO transition on coordinates! Instant positioning at all times */
+  transition: none;
   user-select: none;
   -webkit-user-select: none;
 }
 
 .nesticle-cursor-follower.visible {
   opacity: 1;
+  visibility: visible;
 }
 
-.nesticle-cursor-follower.clicking {
-  transform: translate3d(var(--nesticle-x), var(--nesticle-y), 0) scale(0.92) rotate(-4deg);
-}
-
-.nesticle-cursor-follower.interactive-hover {
-  filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.7));
-  transform: translate3d(var(--nesticle-x), var(--nesticle-y), 0) scale(1.1) rotate(-3deg);
-}
-
+/* Inner image handles tilt, scale, and hover glow */
 .nesticle-cursor-follower img {
   display: block;
   width: 42px;
   height: 62px;
+  transform-origin: 0 0;
+  transition: transform 0.08s cubic-bezier(0.2, 0.8, 0.4, 1), filter 0.12s ease;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+}
+
+.nesticle-cursor-follower.interactive-hover img {
+  filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.75));
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.nesticle-cursor-follower.clicking img {
+  transform: scale(0.92) rotate(-1deg);
 }
 
 /* Retro Blood Splatter Particles on Click */
